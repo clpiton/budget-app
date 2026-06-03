@@ -1,0 +1,26 @@
+body{font-family:Arial,sans-serif;background:#f4f4f4;padding:20px}
+.container{max-width:1000px;margin:auto}
+.card{background:#fff;padding:15px;margin:10px 0;border-radius:8px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+input,select,button{padding:8px;margin:4px}
+table{width:100%;border-collapse:collapse}
+th,td{border-bottom:1px solid #ddd;padding:8px}
+.delete-btn{
+    background:#dc3545;
+    color:white;
+    border:none;
+    padding:5px 10px;
+    border-radius:4px;
+}
+.box{
+    padding:15px;
+    border-radius:8px;
+    text-align:center;
+    font-weight:bold;
+}
+
+.budget{background:#e3f2fd;}
+.depense{background:#fff3cd;}
+.reste{background:#d4edda;}
+.conseil{background:#B7D7A2;}
+.hebdo{background:#B7D7A2;}
