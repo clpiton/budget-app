@@ -93,5 +93,45 @@ function exportCSV(){
  a.download=`${week}.csv`;
  a.click();
 }
+function importJSON(event) {
 
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e) {
+
+        try {
+
+            const importedData =
+                JSON.parse(e.target.result);
+
+            if (!importedData.weeks) {
+                throw new Error(
+                    "Format invalide"
+                );
+            }
+
+            data = importedData;
+
+            save();
+
+            render();
+
+            alert(
+                "Données importées avec succès !"
+            );
+
+        } catch(err) {
+
+            alert(
+                "Fichier JSON invalide."
+            );
+        }
+    };
+
+    reader.readAsText(file);
+}
 render();
