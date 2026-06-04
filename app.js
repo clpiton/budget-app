@@ -9,8 +9,13 @@ function weekKey(d=new Date()){
 }
 
 let data=JSON.parse(localStorage.getItem('budgetData')||'{"weeks":{}}');
-const current=weekKey();
-if(!data.weeks[current]) data.weeks[current]=[];
+function getCurrentWeek() {
+    return weekKey();
+}
+
+if(!data.weeks[getCurrentWeek()]) {
+    data.weeks[getCurrentWeek()] = [];
+}
 
 function save(){
  localStorage.setItem('budgetData',JSON.stringify(data));
@@ -23,11 +28,19 @@ function refreshWeeks(){
   const o=document.createElement('option');
   o.value=w;o.textContent=w;s.appendChild(o);
  });
- s.value=current;
+const currentWeek = getCurrentWeek();
+
+if(data.weeks[currentWeek]) {
+    s.value = currentWeek;
+}
 }
 
 function addExpense(){
- const week=current;
+ const week=getCurrentWeek();
+
+if(!data.weeks[week]) {
+    data.weeks[week] = [];
+}
  data.weeks[week].push({
   date:date.value,
   cat:cat.value,
@@ -46,7 +59,14 @@ function delExpense(i){
 let chart;
 function render(){
  refreshWeeks();
- const week=weekSelect.value||current;
+const currentWeek = getCurrentWeek();
+
+if(!data.weeks[currentWeek]) {
+    data.weeks[currentWeek] = [];
+    save();
+}
+
+const week = weekSelect.value || currentWeek;
  const arr=data.weeks[week]||[];
  rows.innerHTML='';
  let spent=0;
@@ -93,6 +113,24 @@ function exportCSV(){
  a.download=`${week}.csv`;
  a.click();
 }
+function exportJSON() {
+
+    const dataStr = JSON.stringify(data, null, 2);
+
+    const blob = new Blob(
+        [dataStr],
+        { type: "application/json" }
+    );
+
+    const a = document.createElement("a");
+
+    a.href = URL.createObjectURL(blob);
+
+    a.download = "budget-backup.json";
+
+    a.click();
+}
+
 function importJSON(event) {
 
     const file = event.target.files[0];
