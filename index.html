@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -14,7 +15,28 @@
 <div class="card">
 <label><div class="box hebdo">Budget hebdomadaire (€)</label>
 <input id="budget" type="number" style="height:100%; width:20%; background:#fff3cd;color:red;font-size:18px;"value="160">
-<div class="box budget">Année 2026</div></div>
+<div class="box budget"><script type="text/javascript">
+<!--
+var maintenant = new Date();
+var annee = maintenant.getYear();
+if(annee < 999) annee+=1900;
+document.write("<h3>Année : " + annee );
+//-->
+
+function NrSemaine(madate) {
+var prem = new Date(madate.getUTCFullYear(),0,1);
+var sem = Math.ceil((((madate - prem) / 86400000) + (madate.getUTCDay()))/7);
+return sem
+}
+ 
+var now = new Date()
+ 
+
+           
+            document.write ("<font color='red'> - Semaine : "+ NrSemaine(now) + "</font></h3>")
+         </script></div></div>
+
+ 
 </div>
 
 <div class="stats card">
@@ -37,7 +59,7 @@
 <input id="amount" type="number" step="0.01" placeholder="Montant">
 <button onclick="addExpense()">Ajouter</button>
 <button onclick="exportCSV()">Exporter CSV</button>
-  <button onclick="exportJSON()">
+<button onclick="exportJSON()">
     Export JSON
 </button>
 
