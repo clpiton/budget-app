@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -17,26 +18,26 @@
 <label><div class="box hebdo">Budget hebdomadaire (€)</label>
 <input id="budget" type="number" style="height:100%; width:10%; background:#fff3cd;color:red;font-size:18px;"value="160">
 <div class="box budget">
-<script type="text/javascript">
+<script>
+function getWeekNumber(date = new Date()) {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  // Jeudi de la semaine courante
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  // 1er janvier de l'année
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  // Calcul du n° de semaine
+  const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+  return weekNo;
+}
 
-var maintenant = new Date();
-var annee = maintenant.getYear();
-if(annee < 999) annee+=1900;
-document.write("<h3>Année : " + annee );
+const aujourdhui = new Date();
 
-
-//function NrSemaine(madate) {
-//var prem = new Date(madate.getUTCFullYear(),0,1);
-//var sem = Math.ceil((((madate - prem) / 86400000) + (madate.getUTCDay()))/7);
-//return sem
-//}
- 
-//var now = new Date()
- 
-
-           
-          //  document.write ("<font color='red'> - Semaine : "+ NrSemaine(now) + "</font></h3>")
-         </script></div></div>
+//document.getElementById("semaine").textContent = 
+ // `Semaine:  ${getWeekNumber(aujourdhui)} Année:   ${aujourdhui.getFullYear()}`;
+  
+ document.write ("<h3><i><font color='red'> Semaine : "+getWeekNumber(aujourdhui)+"  et Année: "+ aujourdhui.getFullYear()+ "</font></i></h3>")   
+</script>
+</div></div>
 
  
 </div>
