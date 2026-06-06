@@ -1,21 +1,39 @@
+
 const today=new Date().toISOString().slice(0,10);
 document.getElementById('date').value=today;
 
-function weekKey(d=new Date()){
- const date=new Date(d);
- const onejan=new Date(date.getFullYear(),0,1);
- const week=Math.ceil((((date-onejan)/86400000)+onejan.getDay()+1)/7);
- return `${date.getFullYear()}-W${week}`;
+function weekKey(d = new Date()) {
+
+    const date = new Date(d);
+
+    date.setHours(0, 0, 0, 0);
+
+    // jeudi de la semaine courante
+    date.setDate(
+        date.getDate() + 3 - ((date.getDay() + 6) % 7)
+    );
+
+    const week1 = new Date(date.getFullYear(), 0, 4);
+
+    const weekNumber =
+        1 +
+        Math.round(
+            (
+                (
+                    date -
+                    week1
+                ) / 86400000 -
+                3 +
+                ((week1.getDay() + 6) % 7)
+            ) / 7
+        );
+
+    return `${date.getFullYear()}-W${weekNumber}`;
 }
 
 let data=JSON.parse(localStorage.getItem('budgetData')||'{"weeks":{}}');
-function getCurrentWeek() {
-    return weekKey();
-}
-
-if(!data.weeks[getCurrentWeek()]) {
-    data.weeks[getCurrentWeek()] = [];
-}
+const current=weekKey();
+if(!data.weeks[current]) data.weeks[current]=[];
 
 function save(){
  localStorage.setItem('budgetData',JSON.stringify(data));
@@ -28,19 +46,11 @@ function refreshWeeks(){
   const o=document.createElement('option');
   o.value=w;o.textContent=w;s.appendChild(o);
  });
-const currentWeek = getCurrentWeek();
-
-if(data.weeks[currentWeek]) {
-    s.value = currentWeek;
-}
+ s.value=current;
 }
 
 function addExpense(){
- const week=getCurrentWeek();
-
-if(!data.weeks[week]) {
-    data.weeks[week] = [];
-}
+ const week=current;
  data.weeks[week].push({
   date:date.value,
   cat:cat.value,
@@ -59,14 +69,7 @@ function delExpense(i){
 let chart;
 function render(){
  refreshWeeks();
-const currentWeek = getCurrentWeek();
-
-if(!data.weeks[currentWeek]) {
-    data.weeks[currentWeek] = [];
-    save();
-}
-
-const week = weekSelect.value || currentWeek;
+ const week=weekSelect.value||current;
  const arr=data.weeks[week]||[];
  rows.innerHTML='';
  let spent=0;
@@ -173,3 +176,5 @@ function importJSON(event) {
     reader.readAsText(file);
 }
 render();
+console.log("Date :", new Date().toLocaleDateString());
+console.log("Semaine calculée :", weekKey());
