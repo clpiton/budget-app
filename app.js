@@ -40,13 +40,31 @@ function save(){
 }
 
 function refreshWeeks(){
- const s=document.getElementById('weekSelect');
- s.innerHTML='';
- Object.keys(data.weeks).sort().reverse().forEach(w=>{
-  const o=document.createElement('option');
-  o.value=w;o.textContent=w;s.appendChild(o);
+
+ const s = document.getElementById('weekSelect');
+
+ const selected = s.value;
+
+ s.innerHTML = '';
+
+ Object.keys(data.weeks)
+   .sort()
+   .reverse()
+   .forEach(w => {
+
+     const o = document.createElement('option');
+
+     o.value = w;
+     o.textContent = w;
+
+     s.appendChild(o);
  });
- s.value=current;
+
+ if(selected && data.weeks[selected]){
+    s.value = selected;
+ } else {
+    s.value = weekKey();
+ }
 }
 
 function addExpense(){
