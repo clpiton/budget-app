@@ -96,7 +96,8 @@ function render(){
   rows.innerHTML+=`<tr><td>${e.date}</td><td>${e.cat}</td><td>${e.label}</td><td>${e.amount.toFixed(2)}€</td><td><button class="delete-btn" onclick="delExpense(${i})">X</button></td></tr>`;
  });
 
- const budget=+document.getElementById('budget').value;
+ const budget =
+    getBudgetForWeek(week);
  const remain=budget-spent;
 
  const day=new Date().getDay();
@@ -122,7 +123,29 @@ function render(){
    data:{labels:days,datasets:[{label:'Dépenses',data:totals}]}
  });
 }
+function getBudgetForWeek(week){
 
+    const baseBudget = 160;
+
+    const weeks = Object.keys(data.weeks).sort();
+
+    const index = weeks.indexOf(week);
+
+    if(index <= 0){
+        return baseBudget;
+    }
+
+    const prevWeek = weeks[index - 1];
+
+    const prevExpenses =
+        data.weeks[prevWeek]
+            .reduce((s,e)=>s+e.amount,0);
+
+    const prevRemain =
+        getBudgetForWeek(prevWeek) - prevExpenses;
+
+    return baseBudget + prevRemain;
+}
 function exportCSV(){
  const week=weekSelect.value||current;
  const arr=data.weeks[week]||[];
