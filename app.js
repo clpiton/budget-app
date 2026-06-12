@@ -1,4 +1,5 @@
 
+
 const today=new Date().toISOString().slice(0,10);
 document.getElementById('date').value=today;
 
@@ -98,6 +99,9 @@ function render(){
 
  const budget =
     getBudgetForWeek(week);
+	
+	
+	
  const remain=budget-spent;
 
  const day=new Date().getDay();
@@ -107,6 +111,14 @@ function render(){
  spentVal.textContent=spent.toFixed(2)+'€';
  remainVal.textContent=remain.toFixed(2)+'€';
  dayVal.textContent=(remain/left).toFixed(2)+'€';
+ const baseBudget = 160;
+ 
+ const report = budget - baseBudget;
+ baseBudgetVal.textContent =baseBudget.toFixed(2) + '€';
+
+reportVal.textContent =(report >= 0 ? '+' : '') +
+    report.toFixed(2) + '€';
+ 
 
  const days=["Lun","Mar","Mer","Jeu","Ven","Sam","Dim"];
  const totals=[0,0,0,0,0,0,0];
