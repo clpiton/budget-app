@@ -1,6 +1,4 @@
 
-
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -35,7 +33,7 @@ const aujourdhui = new Date();
 //document.getElementById("semaine").textContent = 
  // `Semaine:  ${getWeekNumber(aujourdhui)} Année:   ${aujourdhui.getFullYear()}`;
   
- document.write ("<h3><i><font color='red'> Semaine : "+getWeekNumber(aujourdhui)+"  et Année: "+ aujourdhui.getFullYear()+ "</font></i></h3>")   
+ document.write ("<h3><i><font color='red'> Semaine : "+getWeekNumber(aujourdhui)+" de l'Année: "+ aujourdhui.getFullYear()+ "</font></i></h3>")   
 </script>
 </div></div>
 
@@ -84,7 +82,15 @@ const aujourdhui = new Date();
 <h3>Historique semaine</h3>
 <select id="weekSelect" onchange="render()"></select>
 </div>
+<div class="card">
+    <h3>Budget de base</h3>
+    <p id="baseBudgetVal">160€</p>
+</div>
 
+<div class="card">
+    <h3>Report</h3>
+    <p id="reportVal">0€</p>
+</div>
 <div class="card"><canvas id="chart"></canvas></div>
 </div>
 <script src="app.js"></script>
