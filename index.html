@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -54,9 +55,12 @@ const aujourdhui = new Date();
 <option>Courses</option><option>Transport</option><option>Loisirs</option>
 <option>Santé</option><option>Factures</option><option>Carburant</option>
 <option>Bricolage</option><option>Coiffeur</option><option>Super-U</option>
-<option>Lidl</option><option>Leclerc</option><option>Autre</option>
+<option>Lidl</option><option>Leclerc</option><option>Petite gourmandise</option>
+><option>Autre</option>
 </select>
-<input id="label" placeholder="Libellé">
+<input id="label" list="labelsList" placeholder="Libellé">
+
+<datalist id="labelsList"></datalist>
 <input id="amount" type="number" step="0.01" placeholder="Montant">
 <button onclick="addExpense()">Ajouter</button>
 <button onclick="exportCSV()">Exporter CSV</button>
