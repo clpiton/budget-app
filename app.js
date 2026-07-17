@@ -1,5 +1,4 @@
 
-
 const today=new Date().toISOString().slice(0,10);
 document.getElementById('date').value=today;
 
@@ -86,8 +85,45 @@ function delExpense(i){
 }
 
 let chart;
+
+function refreshLabels(){
+
+    const list = document.getElementById("labelsList");
+
+    list.innerHTML = "";
+
+    let labels = [];
+
+    Object.values(data.weeks).forEach(week => {
+        week.forEach(expense => {
+
+            if(expense.label &&
+               !labels.includes(expense.label)){
+
+                labels.push(expense.label);
+            }
+
+        });
+    });
+
+    labels.sort();
+
+    labels.forEach(label => {
+
+        const option = document.createElement("option");
+
+        option.value = label;
+
+        list.appendChild(option);
+
+    });
+
+}
+
+
 function render(){
  refreshWeeks();
+ refreshLabels();
  const week=weekSelect.value||current;
  const arr=data.weeks[week]||[];
  rows.innerHTML='';
