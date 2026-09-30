@@ -85,7 +85,7 @@ function delExpense(i){
 }
 
 let chart;
-
+let categoryChart;
 function refreshLabels(){
 
     const list = document.getElementById("labelsList");
@@ -119,9 +119,145 @@ function refreshLabels(){
     });
 
 }
+function renderDashboard(){
 
+    const now = new Date();
+
+    const month =
+        `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+
+    const expenses =
+        Object.values(data.weeks)
+        .flat()
+        .filter(e => e.date && e.date.slice(0,7) === month);
+
+    const total =
+        expenses.reduce((sum,e) => sum + Number(e.amount || 0), 0);
+
+    const count = expenses.length;
+
+    const average =
+        count > 0 ? total / count : 0;
+
+    document.getElementById("monthSpent").textContent =
+        total.toFixed(2) + " €";
+
+    document.getElementById("monthCount").textContent =
+        count;
+
+    document.getElementById("monthAverage").textContent =
+        average.toFixed(2) + " €";
+		
+	const byCategory = {};
+
+expenses.forEach(e => {
+
+    const category = e.cat || "Autres";
+    const amount = Number(e.amount || 0);
+
+    byCategory[category] =
+        (byCategory[category] || 0) + amount;
+});
+
+const categoryStats =
+    document.getElementById("categoryStats");
+
+categoryStats.innerHTML = "";
+
+const categories =
+    Object.entries(byCategory)
+    .sort((a,b) => b[1] - a[1]);
+
+categories.forEach(([category, total]) => {
+
+    const row = document.createElement("div");
+
+    row.style.display = "flex";
+    row.style.justifyContent = "space-between";
+    row.style.padding = "8px 0";
+
+    const name = document.createElement("span");
+    name.textContent = category;
+
+    const value = document.createElement("strong");
+    value.textContent = total.toFixed(2) + " €";
+
+    row.appendChild(name);
+    row.appendChild(value);
+
+    categoryStats.appendChild(row);
+});	
+
+const categoryLabels = categories.map(item => item[0]);
+const categoryValues = categories.map(item => item[1]);
+
+if(categoryChart) {
+    categoryChart.destroy();
+}
+
+categoryChart = new Chart(
+    document.getElementById("categoryChart"),
+    {
+        type: "doughnut",
+
+        data: {
+            labels: categoryLabels,
+
+            datasets: [{
+                data: categoryValues
+            }]
+        },
+
+        options: {
+            responsive: true
+        }
+    }
+);
+
+const byLabel = {};
+
+expenses.forEach(e => {
+
+    const label = e.label || "Sans libellé";
+    const amount = Number(e.amount || 0);
+
+    byLabel[label] =
+        (byLabel[label] || 0) + amount;
+});
+
+const labelStats =
+    document.getElementById("labelStats");
+
+labelStats.innerHTML = "";
+
+const labels = Object.entries(byLabel)
+    .sort((a,b) => b[1] - a[1])
+    .slice(0, 5);
+
+labels.forEach(([label, total]) => {
+
+    const row = document.createElement("div");
+
+    row.style.display = "flex";
+    row.style.justifyContent = "space-between";
+    row.style.padding = "8px 0";
+
+    const name = document.createElement("span");
+    name.textContent = label;
+
+    const value = document.createElement("strong");
+    value.textContent = total.toFixed(2) + " €";
+
+    row.appendChild(name);
+    row.appendChild(value);
+
+    labelStats.appendChild(row);
+});
+}
 
 function render(){
+	
+	renderDashboard();
  refreshWeeks();
  refreshLabels();
  const week=weekSelect.value||current;
