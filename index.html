@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -95,6 +94,40 @@ const aujourdhui = new Date();
     <h3>Report</h3>
     <p id="reportVal">0€</p>
 </div>
+<section id="dashboard">
+    <h2>📊 Tableau de bord</h2>
+
+    <div class="dashboard-grid">
+
+        <div class="card">
+            <h3>Dépenses du mois</h3>
+            <p id="monthSpent">0,00 €</p>
+        </div>
+
+        <div class="card">
+            <h3>Nombre de dépenses</h3>
+            <p id="monthCount">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Moyenne / dépense</h3>
+            <p id="monthAverage">0,00 €</p>
+        </div>
+<div class="card">
+    <h3>Répartition par catégorie</h3>
+    <div id="categoryStats"></div>
+</div>
+<div class="card">
+    <h3>Graphique des catégories</h3>
+    <canvas id="categoryChart"></canvas>
+</div>
+<div class="card">
+    <h3>Top des libellés</h3>
+    <div id="labelStats"></div>
+</div>
+    </div>
+</section>
+
 <div class="card"><canvas id="chart"></canvas></div>
 </div>
 <script src="app.js"></script>
