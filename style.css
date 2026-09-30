@@ -24,3 +24,25 @@ th,td{border-bottom:1px solid #ddd;padding:8px}
 .reste{background:#d4edda;}
 .conseil{background:#B7D7A2;}
 .hebdo{background:#B7D7A2;}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.dashboard-grid .card {
+    text-align: center;
+}
+
+.dashboard-grid p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
