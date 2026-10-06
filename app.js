@@ -353,7 +353,7 @@ reportVal.textContent =(report >= 0 ? '+' : '') +
  if(chart) chart.destroy();
  chart=new Chart(document.getElementById('chart'),{
    type:'bar',
-   data:{labels:days,datasets:[{label:'Dépenses',data:totals}]}
+   data:{labels:days,datasets:[{label:'Dépenses de la semaine',data:totals}]}
  });
 }
 function getBudgetForWeek(week){
