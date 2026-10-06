@@ -86,6 +86,7 @@ function delExpense(i){
 
 let chart;
 let categoryChart;
+let dailyChart;
 function refreshLabels(){
 
     const list = document.getElementById("labelsList");
@@ -253,6 +254,54 @@ labels.forEach(([label, total]) => {
 
     labelStats.appendChild(row);
 });
+const byDay = {};
+
+expenses.forEach(e => {
+
+    const day = e.date;
+
+    byDay[day] =
+        (byDay[day] || 0) + Number(e.amount || 0);
+});
+
+const dailyLabels = Object.keys(byDay).sort();
+
+const dailyValues =
+    dailyLabels.map(day => byDay[day]);
+
+if(dailyChart) {
+    dailyChart.destroy();
+}
+
+dailyChart = new Chart(
+    document.getElementById("dailyChart"),
+    {
+        type: "line",
+
+        data: {
+            labels: dailyLabels.map(day => {
+                const parts = day.split("-");
+                return parts[2] + "/" + parts[1];
+            }),
+
+            datasets: [{
+                label: "Dépenses",
+                data: dailyValues,
+                tension: 0.3
+            }]
+        },
+
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    }
+);
+
 }
 
 function render(){
